@@ -12,7 +12,7 @@ jobs:
     - name: Terraform init
       id: init
       run: terraform init
-      working-directory: ${{ ./eks-cluster }}
+      working-directory: ${{ github.workspace }}/eks-cluster
     - name: Terraform validate
       id: validate
       run: terraform validate

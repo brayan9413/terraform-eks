@@ -3,24 +3,16 @@ terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = ">=2.7.1" # add ons requirement > 2.20
+      version = ">=2.20" # EKS add-ons requirement > 2.20
     }
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.47" # add ons requirement > 5.0
+      version = "~> 5.47" # EKS add-ons requirement > 5.0
     }
-    # local = {
-    #   source  = "hashicorp/local"
-    #   version = "~> 2.1.0"
-    # }
-    # null = {
-    #   source  = "hashicorp/null"
-    #   version = "~> 3.1.0"
-    # }
-    # cloudinit = {
-    #   source  = "hashicorp/cloudinit"
-    #   version = "~> 2.2.0"
-    # }
+    helm = {
+      source  = "hashicorp/helm"
+      version = ">= 2.9" # EKS add-ons requirement > 2.9
+    }
   }
 
   backend "s3" {
@@ -40,6 +32,22 @@ provider "aws" {
       Project     = local.cluster_name
       Environment = var.env_name
       Billing_tag = "Kubernetes"
+    }
+  }
+}
+
+# Helm provider for EKS add-ons
+# - https://registry.terraform.io/providers/hashicorp/helm/latest/docs
+provider "helm" {
+  kubernetes {
+    host                   = module.eks.cluster_endpoint
+    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      command     = "aws"
+      # This requires the awscli to be installed locally where Terraform is executed
+      args = ["eks", "get-token", "--cluster-name", local.cluster_name]
     }
   }
 }

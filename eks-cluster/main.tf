@@ -31,7 +31,7 @@ provider "aws" {
 }
 
 # Helm provider for EKS add-ons
-# - https://registry.terraform.io/providers/hashicorp/helm/latest/docs
+# - https://registry.terraform.io/providers/hashicorp/helm/latest/docs#exec-plugins
 provider "helm" {
   kubernetes {
     host                   = module.eks.cluster_endpoint

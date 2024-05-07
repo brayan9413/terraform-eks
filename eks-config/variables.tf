@@ -21,6 +21,6 @@ variable "eks_cluster_certificate_authority_data" { # input
   description = "eks certificate authority data"
 }
 
-variable "eks_cluster_id" { # input
+variable "eks_cluster_name" { # input
   description = "eks cluster name"
 }

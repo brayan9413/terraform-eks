@@ -13,7 +13,7 @@ dependency "eks-cluster" {
     eks_oidc_provider                      = "123456"
     eks_cluster_endpoint                   = "eks_cluster_endpoint"
     eks_cluster_certificate_authority_data = "ZXhhbXBsbGU="
-    eks_cluster_id                         = "123456"
+    eks_cluster_name                         = "123456"
   }
 
   mock_outputs_merge_with_state           = true
@@ -24,5 +24,5 @@ inputs = {
   eks_oidc_provider                      = dependency.eks-cluster.outputs.eks_oidc_provider
   eks_cluster_endpoint                   = dependency.eks-cluster.outputs.eks_cluster_endpoint
   eks_cluster_certificate_authority_data = dependency.eks-cluster.outputs.eks_cluster_certificate_authority_data
-  eks_cluster_id                         = dependency.eks-cluster.outputs.eks_cluster_id
+  eks_cluster_name                         = dependency.eks-cluster.outputs.eks_cluster_name
 }

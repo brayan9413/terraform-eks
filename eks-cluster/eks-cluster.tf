@@ -22,7 +22,7 @@ module "eks" {
 
   eks_managed_node_group_defaults = {
     ami_type       = "AL2_x86_64" # Amazon linux 2
-    instance_types = ["t3.medium"]
+    instance_types = var.node_group_instance_type_list
   }
 
   eks_managed_node_groups = {
@@ -63,5 +63,5 @@ module "eks_blueprints_addons" {
   enable_karpenter                    = true # node autoscaling
   enable_kube_prometheus_stack        = true
   enable_metrics_server               = true
-  enable_external_dns                 = true
+  # enable_external_dns                 = true
 }

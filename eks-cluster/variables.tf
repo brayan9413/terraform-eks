@@ -14,6 +14,12 @@ variable "aws_region" {
 }
 
 variable "env_name" {
+  description = "Environment of component ex. dev, qa1, stg, prod."
   default     = "dev"
-  description = "environment"
+}
+
+# EKS config
+variable "node_group_instance_type_list" {
+  description = "node_group instace type list"
+  default     = ["t2.micro"]
 }

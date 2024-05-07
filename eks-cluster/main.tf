@@ -15,13 +15,7 @@ terraform {
     }
   }
 
-  backend "s3" {
-    bucket         = "tf-state-test-brayan-salazar"
-    key            = "terraform-eks/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "terraform-lock" # DynamoDB table used for state locking.
-    encrypt        = true             # Ensures the state is encrypted at rest in S3.
-  }
+  # NOTE: Terraform backend is configured with terragrunt in the root terragrunt.hcl file
 }
 
 provider "aws" {

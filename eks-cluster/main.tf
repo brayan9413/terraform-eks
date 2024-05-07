@@ -21,13 +21,14 @@ terraform {
     #   source  = "hashicorp/cloudinit"
     #   version = "~> 2.2.0"
     # }
-
   }
 
   backend "s3" {
-    bucket = "tf-state-test-brayan-salazar"
-    key    = "terraform-eks/terraform.tfstate"
-    region = "us-east-1"
+    bucket         = "tf-state-test-brayan-salazar"
+    key            = "terraform-eks/terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "terraform-lock" # DynamoDB table used for state locking.
+    encrypt        = true             # Ensures the state is encrypted at rest in S3.
   }
 }
 
@@ -36,7 +37,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      environment = var.env_name
+      Project     = local.cluster_name
+      Environment = var.env_name
+      Billing_tag = "Kubernetes"
     }
   }
 }

@@ -24,5 +24,5 @@ inputs = {
   eks_oidc_provider                      = dependency.eks-cluster.outputs.eks_oidc_provider
   eks_cluster_endpoint                   = dependency.eks-cluster.outputs.eks_cluster_endpoint
   eks_cluster_certificate_authority_data = dependency.eks-cluster.outputs.eks_cluster_certificate_authority_data
-  eks_cluster_name                         = dependency.eks-cluster.outputs.eks_cluster_name
+  eks_cluster_name                       = dependency.eks-cluster.outputs.eks_cluster_name
 }

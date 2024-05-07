@@ -46,7 +46,7 @@ provider "helm" {
   }
 }
 
-# The Kubernetes (K8S) provider is used to interact with the resources supported by Kubernete
+# The Kubernetes (K8S) provider is used to interact with the resources supported by Kubernetes
 # - https://registry.terraform.io/providers/hashicorp/kubernetes/latest/docs#exec-plugins
 provider "kubernetes" {
   host                   = var.eks_cluster_endpoint

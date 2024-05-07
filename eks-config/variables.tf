@@ -8,7 +8,7 @@ variable "env_name" {
   description = "environment"
 }
 
-# Service account roles
+# INPUTS
 variable "eks_oidc_provider" { # input
   description = "eks oidc ID provider"
 }

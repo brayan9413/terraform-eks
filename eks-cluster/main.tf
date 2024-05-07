@@ -37,7 +37,9 @@ provider "aws" {
 
   default_tags {
     tags = {
-      environment = var.env_name
+      Project     = local.cluster_name
+      Environment = var.env_name
+      Billing_tag = "Kubernetes"
     }
   }
 }

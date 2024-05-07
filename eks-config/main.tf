@@ -23,25 +23,25 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project     = local.cluster_name
+      Project     = var.eks_cluster_id
       Environment = var.env_name
       Billing_tag = "Kubernetes"
     }
   }
 }
 
-# Helm provider for EKS add-ons
+# Helm provider for additional deployments
 # - https://registry.terraform.io/providers/hashicorp/helm/latest/docs
 provider "helm" {
   kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
+    host                   = var.eks_cluster_endpoint
+    cluster_ca_certificate = base64decode(var.eks_cluster_certificate_authority_data)
 
     exec {
       api_version = "client.authentication.k8s.io/v1beta1"
       command     = "aws"
       # This requires the awscli to be installed locally where Terraform is executed
-      args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+      args = ["eks", "get-token", "--cluster-name", var.eks_cluster_id]
     }
   }
 }

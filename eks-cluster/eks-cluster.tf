@@ -10,8 +10,9 @@ module "eks" {
   cluster_version = var.kubernetes_version
   subnet_ids      = module.vpc.private_subnets
 
-  cluster_endpoint_public_access = true
-  enable_irsa                    = true # Determines whether to create an OpenID Connect Provider for EKS to enable IRSA - IAM roles for SA
+  cluster_endpoint_public_access           = true
+  enable_irsa                              = true # OpenID Connect Provider for EKS to enable IRSA - IAM roles for SA
+  enable_cluster_creator_admin_permissions = true # To add the current caller identity as an administrator
 
   tags = {
     cluster = local.cluster_name
@@ -31,4 +32,36 @@ module "eks" {
       desired_size = 2
     }
   }
+}
+
+# EKS blueprints - https://github.com/aws-ia/terraform-aws-eks-blueprints-addons
+module "eks_blueprints_addons" {
+  source  = "aws-ia/eks-blueprints-addons/aws"
+  version = "~> 1.16"
+
+  cluster_name      = module.eks.cluster_name
+  cluster_endpoint  = module.eks.cluster_endpoint
+  cluster_version   = module.eks.cluster_version
+  oidc_provider_arn = module.eks.oidc_provider_arn
+
+  eks_addons = {
+    aws-ebs-csi-driver = {
+      most_recent = true
+    }
+    coredns = {
+      most_recent = true
+    }
+    vpc-cni = {
+      most_recent = true
+    }
+    kube-proxy = {
+      most_recent = true
+    }
+  }
+
+  enable_aws_load_balancer_controller = true
+  enable_karpenter                    = true # node autoscaling
+  enable_kube_prometheus_stack        = true
+  enable_metrics_server               = true
+  enable_external_dns                 = true
 }

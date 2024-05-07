@@ -3,9 +3,9 @@ variable "kubernetes_version" {
   description = "kubernetes version"
 }
 
-variable "vpc_cidr" {
-  default     = "10.0.0.0/16"
-  description = "default CIDR range of the VPC"
+variable "vpc_cidr_prefix" {
+  default     = "10.0"
+  description = "The first 2 octets of the IPv4 address space"
 }
 
 variable "aws_region" {

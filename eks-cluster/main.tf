@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.2.0"
+  required_version = ">= 1.3.2" # eks module requirement
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
@@ -21,6 +21,13 @@ terraform {
     #   source  = "hashicorp/cloudinit"
     #   version = "~> 2.2.0"
     # }
+
+  }
+
+  backend "s3" {
+    bucket = "tf-state-test-brayan-salazar"
+    key    = "terraform-eks/terraform.tfstate"
+    region = "us-east-1"
   }
 }
 

@@ -6,25 +6,20 @@ data "aws_availability_zones" "available" {}
 
 locals {
   cluster_name = "br-eks-sample"
-  availability_zones = sort([ # Prefer az1, az2, and az6 as they can run most instance types - region us-east-1
-    data.aws_availability_zones.available.names[index(data.aws_availability_zones.available.zone_ids, "use1-az1")],
-    data.aws_availability_zones.available.names[index(data.aws_availability_zones.available.zone_ids, "use1-az2")],
-    data.aws_availability_zones.available.names[index(data.aws_availability_zones.available.zone_ids, "use1-az6")]
-  ])
   private_subnets = [
-    "${var.vpc_cidr}.0.0/19", # 8190 hosts per subnet
-    "${var.vpc_cidr}.32.0/19",
-    "${var.vpc_cidr}.64.0/19"
+    "${var.vpc_cidr_prefix}.0.0/19", # 8190 hosts per subnet
+    "${var.vpc_cidr_prefix}.32.0/19",
+    "${var.vpc_cidr_prefix}.64.0/19"
   ]
   intra_subnets = [
-    "${var.vpc_cidr}.96.0/22", # 1022 host per subnet
-    "${var.vpc_cidr}.100.0/22",
-    "${var.vpc_cidr}.104.0/22"
+    "${var.vpc_cidr_prefix}.96.0/22", # 1022 host per subnet
+    "${var.vpc_cidr_prefix}.100.0/22",
+    "${var.vpc_cidr_prefix}.104.0/22"
   ]
   public_subnets = [
-    "${var.vpc_cidr}.108.0/22", # 1022 host per subnet
-    "${var.vpc_cidr}.112.0/22",
-    "${var.vpc_cidr}.116.0/22"
+    "${var.vpc_cidr_prefix}.108.0/22", # 1022 host per subnet
+    "${var.vpc_cidr_prefix}.112.0/22",
+    "${var.vpc_cidr_prefix}.116.0/22"
   ]
 }
 
@@ -34,8 +29,8 @@ module "vpc" {
   version = "5.8.0"
 
   name                 = "br-eks-vpc"
-  cidr                 = var.vpc_cidr
-  azs                  = local.availability_zones
+  cidr                 = "${var.vpc_cidr_prefix}.0.0/16"
+  azs                  = slice(data.aws_availability_zones.available.names, 0, 3)
   private_subnets      = local.private_subnets
   public_subnets       = local.public_subnets
   intra_subnets        = local.intra_subnets

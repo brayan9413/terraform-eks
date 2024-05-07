@@ -1,9 +1,9 @@
-output "cluster_id" {
+output "eks_cluster_name" {
   description = "EKS cluster ID."
-  value       = module.eks.cluster_id
+  value       = module.eks.cluster_name
 }
 
-output "cluster_endpoint" {
+output "eks_cluster_endpoint" {
   description = "Endpoint for EKS control plane."
   value       = module.eks.cluster_endpoint
 }
@@ -13,6 +13,10 @@ output "cluster_security_group_id" {
   value       = module.eks.cluster_security_group_id
 }
 
-output "oidc_provider_arn" {
+output "eks_oidc_provider" {
   value = module.eks.oidc_provider_arn
+}
+
+output "eks_cluster_certificate_authority_data" {
+  value = module.eks.cluster_certificate_authority_data
 }

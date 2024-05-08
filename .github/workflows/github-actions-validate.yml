@@ -15,10 +15,17 @@ jobs:
     - uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.8.1
-    - name: Terraform init
+    - name: Terraform init eks-cluster
       id: init
-      run: terraform init
+      run: terraform init eks-cluster
       working-directory: ${{ github.workspace }}/eks-cluster
     - name: Terraform validate
+      id: validate
+      run: terraform validate
+    - name: Terraform init eks-config
+      id: init
+      run: terraform init
+      working-directory: ${{ github.workspace }}/eks-config
+    - name: Terraform validate eks-config
       id: validate
       run: terraform validate

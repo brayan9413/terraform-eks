@@ -23,6 +23,6 @@ jobs:
         terraform validate
     - name: Terraform init and validate eks-config
       run: |
-        cd ../eks-config
+        cd eks-config
         terraform init
         terraform validate

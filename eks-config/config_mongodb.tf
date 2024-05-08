@@ -10,6 +10,12 @@ resource "kubernetes_namespace" "mongodb" {
   }
 }
 
+locals {
+  databases_list    = ["test_database"]
+  mongodb_users     = jsondecode(var.mongodb_users)
+  mongodb_passwords = jsondecode(var.mongodb_passwords)
+}
+
 resource "helm_release" "mongodb" {
   depends_on = [kubernetes_namespace.mongodb]
 
@@ -20,17 +26,17 @@ resource "helm_release" "mongodb" {
 
   set_list {
     name  = "auth.databases"
-    value = ["test_database"]
+    value = local.databases_list
   }
 
   set_list {
     name  = "auth.usernames"
-    value = jsondecode(var.mongodb_users)
+    value = local.mongodb_users
   }
 
   set_list {
     name  = "auth.passwords"
-    value = jsondecode(var.mongodb_passwords)
+    value = local.mongodb_passwords
   }
 
   set {

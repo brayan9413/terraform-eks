@@ -10,12 +10,6 @@ resource "kubernetes_namespace" "mongodb" {
   }
 }
 
-locals {
-  databases_list    = ["test_database"]
-  mongodb_users     = jsondecode(var.mongodb_users)
-  mongodb_passwords = jsondecode(var.mongodb_passwords)
-}
-
 resource "helm_release" "mongodb" {
   depends_on = [kubernetes_namespace.mongodb]
 
@@ -23,21 +17,6 @@ resource "helm_release" "mongodb" {
   repository = "https://charts.bitnami.com/bitnami"
   chart      = "mongodb"
   namespace  = "mongodb"
-
-  set_list {
-    name  = "auth.databases"
-    value = local.databases_list
-  }
-
-  set_list {
-    name  = "auth.usernames"
-    value = local.mongodb_users
-  }
-
-  set_list {
-    name  = "auth.passwords"
-    value = local.mongodb_passwords
-  }
 
   set {
     name  = "architecture"
@@ -47,5 +26,10 @@ resource "helm_release" "mongodb" {
   set {
     name  = "useStatefulSet" # Set to true to use a StatefulSet instead of a Deployment (only when architecture=standalone)
     value = true
+  }
+
+  set {
+    name  = "auth.enabled" # Set to true to use a StatefulSet instead of a Deployment (only when architecture=standalone)
+    value = false
   }
 }

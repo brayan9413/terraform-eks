@@ -24,12 +24,3 @@ variable "eks_cluster_certificate_authority_data" { # input
 variable "eks_cluster_name" { # input
   description = "eks cluster name"
 }
-
-# MongoBD config
-variable "mongodb_users" {
-  description = "List of MongoDB users for authentication - jsonencode ENV VAR"
-}
-
-variable "mongodb_passwords" {
-  description = "List of MongoDB passwords corresponding to the users - ENV VAR"
-}

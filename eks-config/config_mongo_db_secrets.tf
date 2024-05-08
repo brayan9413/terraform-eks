@@ -5,7 +5,8 @@ resource "kubernetes_secret" "mongo_uri_secret" {
   for_each = { for idx, user in local.mongodb_users : idx => user }
 
   metadata {
-    name = "mongo-uri-secret-${each.value}"
+    name      = "mongo-uri-secret-${each.value}"
+    namespace = "${local.service_list[each.key]}-${var.env_name}"
   }
 
   data = {

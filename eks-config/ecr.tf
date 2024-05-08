@@ -3,7 +3,7 @@
 #--------------------------------------------------------------------------------
 locals {
   service_list = [
-    "node-api-sample-${var.env_name}",
+    "node-api-sample",
   ]
 }
 

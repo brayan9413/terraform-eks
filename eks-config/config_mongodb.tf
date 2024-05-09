@@ -18,11 +18,6 @@ resource "helm_release" "mongodb" {
   chart      = "mongodb"
   namespace  = "mongodb"
 
-  set_list {
-    name  = "auth.databases"
-    value = ["test_database"]
-  }
-
   set {
     name  = "architecture"
     value = "standalone" # The standalone architecture installs a deployment (or StatefulSet) with one MongoDB® server (it cannot be scaled):

@@ -63,8 +63,8 @@ module "eks_blueprints_addons" {
   }
 
   enable_aws_load_balancer_controller = true
-  enable_karpenter                    = true # node autoscaling
-  enable_kube_prometheus_stack        = true
-  enable_metrics_server               = true
+  # enable_karpenter                    = true # node autoscaling, It needs additional config https://aws-ia.github.io/terraform-aws-eks-blueprints/patterns/karpenter-mng/
+  # enable_kube_prometheus_stack = true
+  enable_metrics_server        = true
   # enable_external_dns                 = true
 }

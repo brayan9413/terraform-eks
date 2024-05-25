@@ -73,7 +73,7 @@ export TF_VAR_backend_s3_region=<states-bucket-region>
 2. Apply **(First time)** following EKS blueprints pattern https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#deploy
 
 ```sh
-cd eks cluster
+cd eks-cluster
 terragrunt init
 terragrunt apply -target="module.vpc" -auto-approve
 terragrunt apply -target="module.eks" -auto-approve
@@ -92,3 +92,24 @@ terragrunt run-all apply
 
 This will run both components `eks cluster` and `eks-config` at the same time
 https://terragrunt.gruntwork.io/docs/features/execute-terraform-commands-on-multiple-modules-at-once/#the-run-all-command
+
+## DESTROY
+
+Steps to Destroy all the resources
+
+```
+helm list -A
+```
+
+> remove example API releases first
+
+
+Then remove resources
+```bash
+cd eks-config
+terragrunt destroy -auto-approve
+cd eks-cluster
+terragrunt destroy -target=module.eks_blueprints_addons -auto-approve
+terragrunt destroy -target=module.eks -auto-approve
+terragrunt destroy -auto-approve
+```
